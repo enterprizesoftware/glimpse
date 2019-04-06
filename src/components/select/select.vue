@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts">/*
   import Vue from 'vue'
 
   enum Direction {
@@ -232,7 +232,7 @@
 
     }
   })
-</script>
+*/</script>
 
 <template lang="pug"></template>
 

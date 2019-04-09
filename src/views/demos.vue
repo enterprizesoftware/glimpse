@@ -4,6 +4,5 @@
     <ul>
       <router-link to="/demos/context-menu"><li>Context Menu</li></router-link>
     </ul>
-
   </div>
 </template>

@@ -6,12 +6,12 @@ export type Deactivator = (event: Event) => void;
 
 export function createDeactivator(
   instance: Vue,
-  fn: (event?: Event) => any
+  executeAfter: (event?: Event) => any
 ): Deactivator {
   const deactivate = (event: Event) => {
     if ((<MouseEvent>event).button !== MouseButton.Primary) return;
     if (withinElement(instance.$el, event.target!)) return;
-    fn(event);
+    executeAfter(event);
     document.removeEventListener('click', deactivate);
   };
   return deactivate;

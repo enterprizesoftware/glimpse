@@ -7,3 +7,8 @@ export enum MouseButton {
   Fourth = 3,
   Fifth = 4
 }
+
+export type Resolver<T> = (...params: any) => T;
+export type TypeOrResolver<T> = T | Resolver<T>;
+export type StringOrResolver = string | Resolver<string>;
+export type BooleanOrResolver = boolean | Resolver<boolean>;

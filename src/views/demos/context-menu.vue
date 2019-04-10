@@ -1,7 +1,7 @@
 <template>
   <div class="context-menu">
     <h1>Context Menu</h1>
-    <div class="glimpse-context-menu"></div>
+    <div class="glimpse-context-menu-target"></div>
     <context-menu></context-menu>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default class extends Vue {}
 </script>
 
 <style lang="stylus">
-  .glimpse-context-menu
+  .glimpse-context-menu-target
     width 100px
     height 100px
     background-color #487c5f

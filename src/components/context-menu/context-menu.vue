@@ -1,106 +1,120 @@
 <script lang="ts">
-import { projPrefix, px } from '@/components/common/css-utils';
-import {
-  getViewportPosition,
-  loadSelector
-} from '@/components/common/dom-utils';
-import { isAssigned } from '@/components/common/lang';
-import { MouseButton, Position } from '@/components/common/types';
-import { createDeactivator, Deactivator } from '@/components/common/vue-utils';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import '@/components/context-menu/context-menu.styl'
+import { projPrefix, px } from '@/components/common/css-utils'
+import { getViewportPosition, loadSelector } from '@/components/common/dom-utils'
+import { isAssigned, resolve } from '@/components/common/lang'
+import { MouseButton, Position } from '@/components/common/types'
+import { createDeactivator, Deactivator } from '@/components/common/vue-utils'
+import { MenuItem, MenuItemData } from '@/components/context-menu/context-menu-types';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class ContextMenu extends Vue {
-  @Prop({ default: projPrefix('.context-menu') }) selector!: string;
+  @Prop({ default: projPrefix('.context-menu-target') }) selector!: string
+  @Prop() items!: MenuItem[]
 
-  show: boolean = false;
-  position: Position = [NaN, NaN];
+  show: boolean = false
+  position: Position = [NaN, NaN]
 
-  target: Element | null | undefined = undefined;
-  deactivator: Deactivator | undefined = undefined;
+  targetElem: Element | null | undefined = undefined
+  deactivator: Deactivator | undefined = undefined
+  targetData: any = undefined;
 
   mounted() {
-    this.register();
+    this.register()
   }
 
   private register() {
-    this.target = loadSelector(this.selector);
+    this.targetElem = loadSelector(this.selector)
 
-    if (!this.targetFound) return;
+    if (!this.targetElemAvailable) return
 
-    const triggerFn = (e: Event) => this.onClick(<MouseEvent>e);
-    this.target!.addEventListener('click', triggerFn);
-    this.target!.addEventListener('contextmenu', triggerFn);
+    const triggerFn = (e: Event) => this.onClick(<MouseEvent>e)
+    this.targetElem!.addEventListener('click', triggerFn)
+    this.targetElem!.addEventListener('contextmenu', triggerFn)
   }
 
-  get targetFound() {
-    return isAssigned(this.target);
+  get targetElemAvailable() {
+    return isAssigned(this.targetElem)
   }
 
   private onClick(event: MouseEvent) {
     if (event.button === MouseButton.Secondary) {
-      this.onContext(event);
+      this.onContext(event)
     }
   }
 
   private onContext(event: MouseEvent) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    this.turnOnDeactivationListener();
-    this.open(getViewportPosition(event));
+    event.preventDefault()
+    event.stopImmediatePropagation()
+    this.deactivationListener()
+    this.open(getViewportPosition(event))
   }
 
   private open(position: Position) {
-    this.setPosition(position);
-    this.show = true;
+    this.setPosition(position)
+    this.show = true
   }
 
-  private turnOnDeactivationListener() {
-    this.deactivator = this.deactivator || createDeactivator(this, this.close);
-    document.addEventListener('click', this.deactivator);
+  private deactivationListener() {
+    this.deactivator = this.deactivator || createDeactivator(this, this.close)
+    document.addEventListener('click', this.deactivator)
   }
 
   private close() {
-    this.show = false;
+    this.show = false
   }
 
   private setPosition(position: Position) {
-    Vue.set(this.position, 0, position[0]);
-    Vue.set(this.position, 1, position[1]);
+    Vue.set(this.position, 0, position[0])
+    Vue.set(this.position, 1, position[1])
   }
 
   get inline() {
     return {
       left: px(this.position[0]),
       top: px(this.position[1])
-    };
+    }
   }
 
   get styles() {
     return {
-      active: this.show
-    };
+      'glimpse-context-menu--active': this.show
+    }
+  }
+
+  get menuItems(): MenuItemData[] {
+    const data: MenuItemData[] = [];
+
+    this.items.forEach(item => {
+      data.push({
+        label: resolve(item.label, this.targetData)
+      })
+    })
+
+    return data;
   }
 }
 </script>
 
 <template lang="pug">
-  .context-menu(:style="inline" :class="styles")
-    .context-menu-0
-      i context-menu-place-holder
+.glimpse-context-menu(:style="inline" :class="styles")
+  .glimpse-context-menu__level-0
+    .glimpse-context-menu
 
 
 </template>
 
-<style scoped lang="stylus">
-
-.context-menu
+<style lang="stylus">
+.glimpse-context-menu
   position absolute
   display none
 
-.active
-  display block
+  &--active
+    display block
 
-[attr^='.context-menu-']
-  border 1px solid orange
+  [class*='__level-']
+    border 1px solid orange
+    background-color white
+    padding 2px
 </style>

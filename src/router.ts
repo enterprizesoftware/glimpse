@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/home.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Home from './views/home.vue';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -19,17 +19,20 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/about.vue')
+      component: () =>
+        import(/* webpackChunkName: "about" */ './views/about.vue')
     },
     {
       path: '/demos',
       name: 'demos',
-      component: () => import(/* webpackChunkName: "demos" */ './views/demos.vue')
+      component: () =>
+        import(/* webpackChunkName: "demos" */ './views/demos.vue')
     },
     {
       path: '/demos/context-menu',
       name: 'context-menu',
-      component: () => import(/* webpackChunkName: "context-menu" */ './views/demos/context-menu.vue')
+      component: () =>
+        import(/* webpackChunkName: "context-menu" */ './views/demos/context-menu.vue')
     }
   ]
-})
+});

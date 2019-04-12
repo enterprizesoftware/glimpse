@@ -1,4 +1,4 @@
-<script lang="coffee">
+<script lang="ts">
 import '@/components/context-menu/context-menu.styl'
 import { projPrefix, px } from '@/components/common/css-utils'
 import { getViewportPosition, loadSelector } from '@/components/common/dom-utils'
@@ -7,18 +7,6 @@ import { MouseButton, Position } from '@/components/common/types'
 import { createDeactivator, Deactivator } from '@/components/common/vue-utils'
 import { MenuItem, MenuItemData } from '@/components/context-menu/context-menu-types';
 import { Component, Prop, Vue } from 'vue-property-decorator'
-
-ContextMenu =
-  props:
-    selector:
-      type: String
-      default: projPrefix('.context-menu-target')
-    items: Object
-
-
-export default ContextMenu
-
-
 
 @Component
 export default class ContextMenu extends Vue {

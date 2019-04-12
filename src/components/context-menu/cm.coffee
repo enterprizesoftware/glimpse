@@ -1,4 +1,3 @@
-<script lang="coffee">
   import '@/components/context-menu/context-menu.styl'
   import { projPrefix, px } from '@/components/common/css-utils'
   import { getViewportPosition, loadSelector } from '@/components/common/dom-utils'
@@ -65,27 +64,3 @@
 
         styles: ->
           'glimpse-context-menu--active': @show
-          'glimpse-context-menu--active': @show
-
-</script>
-
-<template lang="pug">
-.glimpse-context-menu(:style="inline" :class="styles")
-  .glimpse-context-menu__level-0
-    .glimpse-context-menu
-
-</template>
-
-<style lang="stylus">
-.glimpse-context-menu
-  position absolute
-  display none
-
-  &--active
-    display block
-
-  [class*='glimpse-context-menu__level-']
-    border 1px solid orange
-    background-color white
-    padding 2px
-</style>

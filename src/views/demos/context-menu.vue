@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ContextMenu from '@/components/context-menu/context-menu.vue'; // @ is an alias to /src
+import ContextMenu from '../../components/context-menu/context-menu.vue'; // @ is an alias to /src
 
 @Component({
   components: {

@@ -65,7 +65,6 @@
 
         styles: ->
           'glimpse-context-menu--active': @show
-          'glimpse-context-menu--active': @show
 
 </script>
 

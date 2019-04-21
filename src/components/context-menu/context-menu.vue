@@ -1,23 +1,25 @@
 <script lang="coffee">
   import '@/components/context-menu/context-menu.styl'
+  import Vue from 'vue'
+  import Menu from '@/components/context-menu/menu.vue'
   import { projPrefix, px } from '@/components/common/css-utils'
   import { getViewportPosition, loadSelector } from '@/components/common/dom-utils'
   import { isAssigned, resolve } from '@/components/common/lang'
   import { MouseButton, Position } from '@/components/common/types'
   import { createDeactivator, Deactivator } from '@/components/common/vue-utils'
-  import { MenuItem, MenuItemData } from '@/components/context-menu/context-menu-types';
-  import { Component, Prop, Vue } from 'vue-property-decorator'
-
+  
   export default
     targetElem: undefined
     targetData: undefined
     deactivator: undefined
 
+    components: { Menu }
+
     props:
       selector:
         type: String
         default: projPrefix('.context-menu-target')
-      items: Object
+      items: Array
 
     data: ->
       show: false
@@ -39,7 +41,7 @@
 
       onContext: (event) ->
           event.preventDefault()
-          event.stopPropagation()
+          event.stopImmediatePropagation()
           @deactivationListener()
           @open(getViewportPosition(event))
 
@@ -73,9 +75,7 @@
 
 <template lang="pug">
 .glimpse-context-menu(:style="inline" :class="styles")
-  .glimpse-context-menu__level-0
-    .glimpse-context-menu
-
+  Menu(:def="items" :level="0")
 </template>
 
 <style lang="stylus">
@@ -85,9 +85,4 @@
 
   &--active
     display block
-
-  [class*='glimpse-context-menu__level-']
-    border 1px solid orange
-    background-color white
-    padding 2px
 </style>

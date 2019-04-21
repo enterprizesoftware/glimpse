@@ -2,15 +2,27 @@
   <div class="context-menu">
     <h1>Context Menu</h1>
     <div class="glimpse-context-menu-target"></div>
-    <context-menu></context-menu>
+    <context-menu :items="items"></context-menu>
   </div>
 </template>
 
 <script lang="coffee">
-import ContextMenu from '../../components/context-menu/context-menu.vue';
+import ContextMenu from '@/components/context-menu/context-menu.vue';
 
 export default
-  components: {ContextMenu}
+  components: { ContextMenu }
+
+  data: ->
+    items: [
+        label: 'File'
+      ,
+        label: 'Edit'
+      ,
+        label: 'Save'
+      ,
+        label: ->
+          'Delete'
+    ]
 </script>
 
 <style lang="stylus">

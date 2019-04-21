@@ -6,20 +6,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import ContextMenu from '../../components/context-menu/context-menu.vue'; // @ is an alias to /src
+<script lang="coffee">
+import ContextMenu from '../../components/context-menu/context-menu.vue';
 
-@Component({
-  components: {
-    ContextMenu
-  }
-})
-export default class extends Vue {}
+export default
+  components: {ContextMenu}
 </script>
 
 <style lang="stylus">
-  .glimpse-context-menu-target
+  [class^='glimpse-context-menu-target']
     width 100px
     height 100px
     background-color #487c5f

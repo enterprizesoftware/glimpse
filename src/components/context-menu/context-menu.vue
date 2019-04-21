@@ -10,8 +10,8 @@
 
   export default
     targetElem: undefined
-    deactivator: undefined
     targetData: undefined
+    deactivator: undefined
 
     props:
       selector:
@@ -19,52 +19,55 @@
         default: projPrefix('.context-menu-target')
       items: Object
 
-      data: ->
-        show: false
-        position: [NaN, NaN]
+    data: ->
+      show: false
+      position: []
 
-      methods:
-        register: ->
-          @targetElem = loadSelector(@selector)
-          return if not @targetElemAvailable
-          @targetElem.addEventListener('click', @onClick)
-          @targetElem.addEventListener('contextmenu', @onClick)
+    mounted: ->
+      @register()
 
-        onClick: (event) ->
-            if (event.button == MouseButton.Secondary)
-                @onContext(event)
+    methods:
+      register: ->
+        @targetElem = loadSelector(@selector)
+        return if not @targetElemAvailable
+        @targetElem.addEventListener('click', @onClick)
+        @targetElem.addEventListener('contextmenu', @onClick)
 
-        onContext: (event) ->
-            event.preventDefault()
-            event.stopImmediatePropogation()
-            @deactivationListener()
-            @open(getViewportPosition(event))
+      onClick: (event) ->
+          if (event.button == MouseButton.Secondary)
+              @onContext(event)
 
-        open: (position) ->
-            @setPosition(position)
-            @show = true
+      onContext: (event) ->
+          event.preventDefault()
+          event.stopPropagation()
+          @deactivationListener()
+          @open(getViewportPosition(event))
 
-        close: ->
-            @show = false
+      open: (position) ->
+          @setPosition(position)
+          @show = true
 
-        deactivationListener: ->
-            @deactivator = @deactivator || createDeactivator(@, @close)
-            document.addEventListener('click', @deactivator)
+      close: ->
+          @show = false
 
-        setPosition: (position) ->
-            Vue.set(@position, 0, position[0])
-            Vue.set(@position, 1, position[1])
+      deactivationListener: ->
+          @deactivator = @deactivator || createDeactivator(@, @close)
+          document.addEventListener('click', @deactivator)
 
-      computed:
-        targetElemAvailable: ->
-          isAssigned(@targetElem)
+      setPosition: (position) ->
+          Vue.set(@position, 0, position[0])
+          Vue.set(@position, 1, position[1])
 
-        inline: ->
-          left: px(@position[0])
-          top: px(@position[1])
+    computed:
+      targetElemAvailable: ->
+        isAssigned(@targetElem)
 
-        styles: ->
-          'glimpse-context-menu--active': @show
+      inline: ->
+        left: px(@position[0])
+        top: px(@position[1])
+
+      styles: ->
+        'glimpse-context-menu--active': @show
 
 </script>
 
